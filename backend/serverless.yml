@@ -9,6 +9,15 @@ provider:
   region: eu-north-1
   iam:
     role: arn:aws:iam::102503112251:role/lecture-role
+  httpApi:
+    cors:
+      allowedOrigins:
+        - 'http://localhost:5173'
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE      
 
 functions:
   postMessage:
