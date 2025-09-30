@@ -1,0 +1,16 @@
+footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 1rem;
+
+    button {
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        border: 1px solid grey;
+    }
+    .fa-solid, .fa-plus {
+       font-size: xx-large;
+    } 
+}

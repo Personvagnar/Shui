@@ -1,23 +1,51 @@
 main {
-    background-color: rgb(195, 195, 238);
     width: 100vw;
-    height: 100vh;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
+    margin: 1rem;
 
-    h2{
+    .mainheader-container {
+        display: flex;
+        width: 90%;
+        height: 2rem;
 
+        input {
+            width: 100%;
+            padding-left: 0.5rem;
+            font-weight: 600;
+            border: 1px solid grey;
+            border-radius: 5px;
+        }
     }
     .messages-container {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        grid-template-rows: auto;
-        border: 1px solid yellow;
-        padding: 1rem;
+        grid-template-columns: repeat(2, 1fr);
         width: 90%;
         height: auto;
         gap: 1rem;
+        margin-bottom: 6rem;
+    }
+    @media screen and (min-width: 768px) {
+        .messages-container {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media screen and (min-width: 1024px) {
+        .messages-container {
+            grid-template-columns: repeat(5, 1fr); /* 4 columns */
+        }
+    }
+    @media screen and (min-width: 1240px) {
+        .messages-container {
+            grid-template-columns: repeat(7, 1fr); /* 4 columns */
+        }
+    }
+
+    .messages-container > * {
+        width: 100%;
     }
 }

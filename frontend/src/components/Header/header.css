@@ -1,14 +1,17 @@
 header {
-    position: fixed;
-    top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid green;
     width: 100vw;
-    height: 10%;
+    height: 15vh;
+    background: transparent;
     
     h1 {
-        color: red;
+        font-size: 5rem;
+        color: rgba(74, 114, 74, 0.2);
+        letter-spacing: 2rem;
+    }
+    h1:hover {
+        cursor: default;
     }
 }
