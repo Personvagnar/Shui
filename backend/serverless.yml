@@ -6,14 +6,62 @@ service: backend
 provider:
   name: aws
   runtime: nodejs20.x
+  region: eu-north-1
   iam:
     role: arn:aws:iam::102503112251:role/lecture-role
 
-
 functions:
-  hello:
-    handler: handler.hello
+  postMessage:
+    handler: functions/postMessage/index.handler
     events:
       - httpApi:
-          path: /
+          path: /create
+          method: post
+
+  updateMessage:
+    handler: functions/updateMessage/index.handler
+    events:
+      - httpApi:
+          path: /update/{id}
+          method: put
+
+  getMessages:
+    handler: functions/getMessages/index.handler
+    events:
+      - httpApi:
+          path: /messages
           method: get
+
+  deleteMessages:
+    handler: functions/deleteMessage/index.handler
+    events:
+      - httpApi:
+          path: /delete/{id}
+          method: delete
+
+resources:
+  Resources:
+    ShuiMessagesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ShuiMessagesTable
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+          - AttributeName: username
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: usernameIndex
+            KeySchema:
+              - AttributeName: username
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
