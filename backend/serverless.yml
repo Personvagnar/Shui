@@ -48,6 +48,13 @@ functions:
           path: /delete/{id}
           method: delete
 
+  getMessageByUser:
+    handler: functions/getMessageByUser/index.handler
+    events:
+      - httpApi:
+          path: /messages/{username}
+          method: get
+
 resources:
   Resources:
     ShuiMessagesTable:
