@@ -1,44 +1,53 @@
 import "./NewMessage.css";
 import { useState } from "react";
-import { postMessage } from "../../services/api.js";
 
-function NewMessage({ onClose }) {
-    const [username, setUsername] = useState('');
-    const [text, setText] = useState('');
+function NewMessage({ onClose, onMessageCreated }) {
+  const [username, setUsername] = useState('');
+  const [text, setText] = useState('');
+  const [error, setError] = useState(null);
 
-    async function handleSubmit() {
-        if (!username.trim() || !text.trim()) return;
+  async function handleSubmit() {
+    const message = { username, text };
 
-        try {
-            const message = {username, text};
-            const saved = await postMessage(message);
+    try {
+      await onMessageCreated(message);
+      setUsername('');
+      setText('');
+      setError(null);
 
-            onClose?.();
-
-            setUsername('');
-            setText('');
-        } catch (error) {
-            console.log(error);
-        }
+      onClose?.();
+    }catch(err) {
+      setError(err.message);
     }
+
+  }
+
+  function cancelBtn() {
+    setUsername('');
+    setText('');
+    onClose?.();
+  }
 
   return (
     <section className="newmessage-container">
-        <h3>New Post</h3>
-        <input 
-            type="text" 
-            placeholder="Username" 
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="newmessage-username"/>
-        <textarea  
-            placeholder="Input text..." 
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="newmessage-text"/>
-        <button onClick={handleSubmit}>Post</button>
+      <h3>New Post</h3>
+      <input 
+        type="text" 
+        placeholder={error ?? "Username"}
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        className={`newmessage-username${error ? " errorclass" : ""}`}/>
+      <textarea  
+        placeholder={error ?? "Input text..."}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className={`newmessage-text${error ? " errorclass" : ""}`}/>
+      <section className="newmessage-buttons">
+        <button onClick={handleSubmit}><i className="fa-solid fa-check"></i></button>
+        <button onClick={cancelBtn}><i className="fa-solid fa-xmark"></i></button>
+      </section>
     </section>
-  )
+  );
 }
 
-export default NewMessage
+export default NewMessage;

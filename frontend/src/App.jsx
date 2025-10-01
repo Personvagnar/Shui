@@ -1,26 +1,23 @@
-import { useState, useEffect } from 'react'
 import Header from './components/Header/Header.jsx';
 import Main from './components/Main/Main.jsx';
 import Footer from './components/Footer/Footer.jsx';
-import './App.css'
-import { getMessages } from './services/api.js';
-
+import './App.css';
+import { useMsg } from './hooks/useMsg.js';
 
 function App() {
-  const [messages, setMessages] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    getMessages()
-      .then(data => setMessages(data))
-      .catch(error => setError(error.message));
-  }, [])
+  const { messages, loading, error, createMessage, editMessage, removeMessage } = useMsg();
 
   return (
     <div className='app'>
       <Header/>
-      <Main messages={messages}/>
-      <Footer />
+      <Main 
+        messages={messages} 
+        loading={loading} 
+        error={error} 
+        onDeleted={removeMessage} 
+        onUpdated={editMessage} 
+      />
+      <Footer onMessageCreated={createMessage} />
     </div>
   )
 }
