@@ -16,7 +16,6 @@ export async function postMessage(message) {
     });
 
     const textBody = await res.text();
-    console.log("postMessage response:", res.status, textBody);
 
     if (!res.ok) {
         let errorMessage;
@@ -49,7 +48,6 @@ export async function updateMessage(id, text) {
     });
 
     const textBody = await res.text();
-    console.log("updateMessage response:", res.status, textBody);
 
     if (!res.ok) {
         let errorMessage;
