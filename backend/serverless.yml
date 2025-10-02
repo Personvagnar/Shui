@@ -13,6 +13,7 @@ provider:
     cors:
       allowedOrigins:
         - 'http://localhost:5173'
+        - 'http://shui-frontend-john2025.s3-website.eu-north-1.amazonaws.com'
       allowedMethods:
         - GET
         - POST

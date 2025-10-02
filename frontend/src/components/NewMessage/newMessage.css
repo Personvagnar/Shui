@@ -46,11 +46,25 @@
             height: 6rem;
             border-radius: 50%;
             border: 1px solid grey;
+            font-size: x-large;
+            cursor: pointer;
+            transition: all 0.1s ease-in-out;
+        }
+        button:hover {
+            background: linear-gradient(to top, rgb(195, 195, 238), rgb(199, 236, 236));
+            border: 2px solid rgb(221, 230, 98);
         }
     }
 
     .newmessage-text.errorclass::placeholder,
     .newmessage-username.errorclass::placeholder {
         color: red;
+    }
+}
+
+@media screen and (min-width: 1240px) {
+    .newmessage-container {
+        width: 50%;
+        left: 25%;
     }
 }
