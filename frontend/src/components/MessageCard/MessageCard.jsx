@@ -2,7 +2,7 @@ import EditMessage from '../EditMessage/EditMEssage.jsx';
 import './messageCard.css'
 import { useState } from 'react'
 
-function MessageCard({ id, username, text, onDeleted, onUpdated }) {
+function MessageCard({ id, username, text, createdAt, onDeleted, onUpdated }) {
   const [showButtons, setShowButtons] = useState(false);
   const [editMessage, setEditMessage] = useState(false);
 
@@ -39,6 +39,7 @@ function MessageCard({ id, username, text, onDeleted, onUpdated }) {
               id={id}
               username={username} 
               text={text}
+              createdAt={createdAt}
               onClose={() => setEditMessage(false)}
               onUpdated={onUpdated}
             />

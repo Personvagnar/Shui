@@ -7,6 +7,7 @@ export const handler = async (event) => {
     const message = JSON.parse(event.body);
 
     const id = uuid().slice(0, 5);
+    const time = new Date().toISOString();
 
     if (!message.username || !message.text) {
       return {
@@ -20,6 +21,8 @@ export const handler = async (event) => {
       sk: { S: id },
       username: { S: message.username },
       text: { S: message.text },
+      createdAt: { S: time },
+      timestamp: { N: `${Date.now()}` },
     };
 
     const command = new PutItemCommand({
@@ -35,6 +38,8 @@ export const handler = async (event) => {
         id,
         username: message.username,
         text: message.text,
+        createdAt: time,
+        timestamp: Date.now(),
       }),
     };
   } catch (err) {

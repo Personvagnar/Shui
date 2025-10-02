@@ -6,7 +6,7 @@ export const handler = async (event) => {
     const { id } = event.pathParameters;
     const { text } = JSON.parse(event.body);
 
-    if (!id || !text ||text.trim() === "") {
+    if (!id || !text || text.trim() === "") {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: "ID and text are required!" }),

@@ -1,20 +1,18 @@
 import "./editMessage.css";
 import { useState } from "react";
 
-function EditMessage({ id, username, text: initText, onClose, onUpdated }) {
+function EditMessage({ id, username, text: initText, createdAt, onClose, onUpdated }) {
     const [text, setText] = useState(initText);
     const [error, setError] = useState(null);
 
     async function handleUpdate() {
-
-        try {
-            await onUpdated(text);
-            setError(null);
-
-            onClose?.();
-        } catch(err) {
-            setError(err.message);
-        }
+    try {
+        await onUpdated(text); // text only
+        setError(null);
+        onClose?.();
+    } catch(err) {
+        setError(err.message);
+    }
     }
 
     function cancelBtn() {
@@ -25,6 +23,7 @@ function EditMessage({ id, username, text: initText, onClose, onUpdated }) {
         <section className="editMessage-container">
             <h3>Edit Message</h3>
             <h4>{username}</h4>
+            <p>Created: {createdAt}</p>
             <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}

@@ -1,10 +1,23 @@
 const API_URL = "https://vzcjtfer6l.execute-api.eu-north-1.amazonaws.com"
 
 export async function getMessages() {
-    const url = `${API_URL}/messages`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Failed to fetch messages');
-    return res.json();
+  const url = `${API_URL}/messages`;
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch messages');
+  }
+
+  const data = await res.json();
+
+  // Säkerställ att createdAt och timestamp alltid finns
+  return data.map(post => ({
+    id: post.id,
+    username: post.username,
+    text: post.text,
+    createdAt: post.createdAt ?? null,
+    timestamp: post.timestamp != null ? Number(post.timestamp) : null
+  }));
 }
 
 export async function postMessage(message) {
@@ -64,14 +77,25 @@ export async function updateMessage(id, text) {
 }
 
 export async function getMessageByUser(username) {
-    const url = `${API_URL}/messages/${username}`;
-    const res = await fetch(url, {
-        method: "GET",
-        headers: {"Content-Type": "application/json"}
-    });
-    if(!username) return [];
-    if(!res.ok) {
-        throw new Error(`Failed to fetch messages for ${username}`);
-    }
-    return res.json();
+  if (!username) return [];
+
+  const url = `${API_URL}/messages/${username}`;
+  const res = await fetch(url, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch messages for ${username}`);
+  }
+
+  const data = await res.json();
+
+  return data.map(post => ({
+    id: post.id,
+    username: post.username,
+    text: post.text,
+    createdAt: post.createdAt ?? null,
+    timestamp: post.timestamp != null ? Number(post.timestamp) : null
+  }));
 }

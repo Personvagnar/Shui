@@ -20,6 +20,10 @@
         text-decoration: underline;
         font-weight: 600;
     }
+    p {
+        font-weight: 200;
+        font-size: small;
+    }
 
     input, textarea {
         width: 100%;

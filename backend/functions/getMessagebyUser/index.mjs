@@ -23,13 +23,15 @@ export const handler = async (event) => {
     });
 
     const result = await client.send(command);
-
     const items = result.Items || [];
 
+    // Mappa DynamoDB-attributen korrekt
     const messages = items.map((item) => ({
       id: item.sk.S,
       username: item.username.S,
       text: item.text.S,
+      createdAt: item.createdAt?.S || null,
+      timestamp: item.timestamp?.N ? Number(item.timestamp.N) : null
     }));
 
     return {

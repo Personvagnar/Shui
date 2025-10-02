@@ -73,7 +73,13 @@ export function useMsg() {
     setLoading(true);
     try {
       const editedMsg = await updateMessage(id, text);
-      setMessages(prev => prev.map(m => m.id === id ? { ...m, text } : m));
+      setMessages(prev =>
+        prev.map(m =>
+          m.id === id
+            ? { ...m, text: editedMsg.text }
+            : m
+        )
+      );
       return editedMsg;
     } catch (err) {
       triggerError(err.message);
