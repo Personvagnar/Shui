@@ -62,3 +62,16 @@ export async function updateMessage(id, text) {
 
     return JSON.parse(textBody);
 }
+
+export async function getMessageByUser(username) {
+    const url = `${API_URL}/messages/${username}`;
+    const res = await fetch(url, {
+        method: "GET",
+        headers: {"Content-Type": "application/json"}
+    });
+    if(!username) return [];
+    if(!res.ok) {
+        throw new Error(`Failed to fetch messages for ${username}`);
+    }
+    return res.json();
+}

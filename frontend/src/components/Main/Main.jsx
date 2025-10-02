@@ -1,17 +1,29 @@
+import { useState, useEffect } from 'react';
 import MessageCard from '../MessageCard/MessageCard.jsx';
 import "./main.css";
 
-function Main({ messages, loading, error, onDeleted, onUpdated}) {
-  if (loading) return <h5>Loading messages...</h5>;
-  if (error) return <h5>Error: {error}</h5>;
+function Main({ messages, loading, error, onDeleted, onUpdated, onSearch}) {
+  const [search, setSearch] = useState('');
+
+  const handleChange = (e) => {
+    const value = (e);
+    setSearch(value);
+    onSearch(value.trim());
+  }
 
   return (
     <main>
       <section className='mainheader-container'>
-        <input type="text" />
+        <input 
+          type="text" 
+          placeholder='Search by username...'
+          onChange={(e) => handleChange(e.target.value)}
+          />
       </section>
       <section className='messages-container'>
-        {messages.map(post => (
+        {loading && <h5>Loading messages...</h5> }
+        {error && <h5>Error: {error}</h5> }
+        {!loading && !error && messages.map(post => (
           <MessageCard 
             key={post.id}
             id={post.id}
