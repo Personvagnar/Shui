@@ -5,7 +5,7 @@ import './App.css';
 import { useMsg } from './hooks/useMsg.js';
 
 function App() {
-  const { messages, loading, error, createMessage, editMessage, removeMessage } = useMsg();
+  const { messages, loading, error, loadMessages, createMessage, editMessage, removeMessage } = useMsg();
 
   return (
     <div className='app'>
@@ -15,7 +15,8 @@ function App() {
         loading={loading} 
         error={error} 
         onDeleted={removeMessage} 
-        onUpdated={editMessage} 
+        onUpdated={editMessage}
+        onSearch={loadMessages}
       />
       <Footer onMessageCreated={createMessage} />
     </div>

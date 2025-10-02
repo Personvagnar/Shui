@@ -3,7 +3,15 @@ import { client } from "../../services/db.mjs";
 
 export const handler = async (event) => {
   try {
-    const username = event.pathParameters.username;
+    // Säker null-check för pathParameters
+    const username = event.pathParameters?.username;
+    if (!username) {
+      return {
+        statusCode: 400,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Username is required" }),
+      };
+    }
 
     const command = new QueryCommand({
       TableName: "ShuiMessagesTable",
@@ -26,13 +34,14 @@ export const handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(messages),
     };
-
   } catch (error) {
-    console.error(error);
+    console.error("Error in getMessageByUser:", error, event);
     return {
       statusCode: 500,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ error: "Could not get user messages" }),
     };
   }

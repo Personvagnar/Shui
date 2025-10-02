@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getMessages, postMessage, deleteMessage, updateMessage } from "../services/api.js";
+import { getMessages, postMessage, deleteMessage, updateMessage, getMessageByUser } from "../services/api.js";
 import { triggerReset } from "../utils/triggerReset.js";
 
 export function useMsg() {
@@ -8,12 +8,32 @@ export function useMsg() {
   const [error, setError] = useState(null);
 
 
-  const loadMessages = async () => {
+  /*const loadMessages = async () => {
     setLoading(true);
     try {
       const data = await getMessages();
       setMessages(data);
       setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };*/
+
+  const loadMessages = async (username) => {
+    setLoading(true);
+    try {
+      const data = username
+        ? await getMessageByUser(username)
+        : await getMessages();
+      setMessages(data);
+      setError(null);
+
+      if(data.length === 0) {
+        setError('No posts were found with that username. Remember that the search index is case sensitive!');
+      }
+      console.log(data);
     } catch (err) {
       setError(err.message);
     } finally {
